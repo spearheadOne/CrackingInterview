@@ -109,11 +109,6 @@ We need to return a list which represents sum of two lists (existing and the one
 - mergeLists - merge two sorted linked lists of integers
 - reverseList - reverse linked list
 
-
-## Multithread
-- pipeline - A container which serves as a pipeline for a single element. The pipeline makes sure that no elements get lost/
-- instantiation counter - count a number of class instances(including the ones in another threads) 
-
 ## Stack
 - CustomStack - custom stack implementation
 - MinStack - wrapper class for CustomStack<Integer> counting minVal and doingSort

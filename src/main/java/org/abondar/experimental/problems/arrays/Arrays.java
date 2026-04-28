@@ -2,7 +2,15 @@ package org.abondar.experimental.problems.arrays;
 
 import org.abondar.experimental.algorithms.SearchAlgs;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.OptionalInt;
+import java.util.Set;
 
 public class Arrays {
 
@@ -226,9 +234,7 @@ public class Arrays {
         int res = 0;
         for (int index = 1; index < length; index++) {
             // all possible indexes check if sum is same for all four sub arrays
-            if (incSumA[index] == incSumB[index] &&
-                    incSumA[index] == incSumA[length] - incSumA[index] &&
-                    incSumB[index] == incSumB[length] - incSumB[index])
+            if (incSumA[index] == incSumB[index] && incSumA[index] == incSumA[length] - incSumA[index] && incSumB[index] == incSumB[length] - incSumB[index])
                 res++;
         }
         return res;
@@ -258,15 +264,9 @@ public class Arrays {
 
         res[0] = nonUnique.size();
 
-        res[1] = nonUnique.stream()
-                .mapToInt(k -> k)
-                .min()
-                .getAsInt();
+        res[1] = nonUnique.stream().mapToInt(k -> k).min().getAsInt();
 
-        res[2] = nonUnique.stream()
-                .mapToInt(k -> k)
-                .max()
-                .getAsInt();
+        res[2] = nonUnique.stream().mapToInt(k -> k).max().getAsInt();
 
         int j = 3;
         for (int nd : noDup) {
@@ -422,7 +422,7 @@ public class Arrays {
         res.add((float) negCount / arr.size());
         res.add((float) zeroCount / arr.size());
 
-        res.forEach(rs -> System.out.println(String.format("%.5f", rs)));
+        res.forEach(rs -> System.out.printf("%.5f%n", rs));
 
         return res;
     }
@@ -487,9 +487,7 @@ public class Arrays {
 
     public int birthdayCandles(List<Integer> candles) {
 
-        OptionalInt maxOptional = candles.stream()
-                .mapToInt(Integer::intValue)
-                .max();
+        OptionalInt maxOptional = candles.stream().mapToInt(Integer::intValue).max();
 
         // If the list is empty, return 0
         if (maxOptional.isEmpty()) {
@@ -498,8 +496,30 @@ public class Arrays {
 
         int max = maxOptional.getAsInt();
 
-        return (int) candles.stream()
-                .filter(n-> n== max)
-                .count();
+        return (int) candles.stream().filter(n -> n == max).count();
+    }
+
+    public int minArrayDistance(int[] arr1, int[] arr2) {
+        int minDistance = Integer.MAX_VALUE;
+
+        int i = 0;
+        int j = 0;
+
+        while (i < arr1.length && j < arr2.length) {
+            int a = arr1[i];
+            int b = arr2[j];
+
+            int distance = Math.abs(a - b);
+            minDistance = Math.min(minDistance, distance);
+
+
+            if (a < b) {
+                i++;
+            } else {
+                j++;
+            }
+        }
+
+        return minDistance;
     }
 }

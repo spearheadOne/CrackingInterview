@@ -250,7 +250,7 @@ public class ArraysTest {
     static Stream<Arguments> minimaxSumParams() {
         return Stream.of(
                 Arguments.of(List.of(1, 2, 3, 4, 5), 10, 14),
-                Arguments.of( List.of(256741038, 623958417, 467905213, 714532089, 938071625), 2063136757L, 2744467344L)
+                Arguments.of(List.of(256741038, 623958417, 467905213, 714532089, 938071625), 2063136757L, 2744467344L)
         );
     }
 
@@ -258,6 +258,22 @@ public class ArraysTest {
         return Stream.of(
                 Arguments.of(List.of(4, 4, 1, 3), 2),
                 Arguments.of(List.of(3, 2, 1, 3), 2)
+        );
+    }
+
+    static Stream<Arguments> distanceParams() {
+        return Stream.of(
+                Arguments.of(new int[]{0, 5, 15, 23}, new int[]{11, 12, 18, 22, 30, 40, 50}, 1),
+                Arguments.of(new int[]{1, 3, 5}, new int[]{2, 3, 4}, 0),
+                Arguments.of(new int[]{10}, new int[]{25}, 15),
+                Arguments.of(new int[]{-10, -5, 0}, new int[]{3, 8, 20}, 3),
+                Arguments.of(new int[]{-20, -10, -3}, new int[]{-8, -2, 4}, 1),
+                Arguments.of(new int[]{1, 100, 200}, new int[]{2, 300, 400}, 1),
+                Arguments.of(new int[]{1, 50, 99}, new int[]{20, 80, 100}, 1),
+                Arguments.of(new int[]{1, 1, 1, 10}, new int[]{5, 6, 10}, 0),
+                Arguments.of(new int[]{1, 1000}, new int[]{100, 200, 300, 400, 500}, 99),
+                Arguments.of(new int[]{1, 2, 3}, new int[]{1, 2, 3}, 0),
+                Arguments.of(new int[]{1, 2, 3}, new int[]{100, 200, 300}, 97)
         );
     }
 
@@ -411,6 +427,13 @@ public class ArraysTest {
     @MethodSource("diagParams")
     public void diagonalDifferenceTest(List<List<Integer>> matrix, int expected) {
         var res = arrayTasks.diagonalDifference(matrix);
+        assertEquals(expected, res);
+    }
+
+    @ParameterizedTest
+    @MethodSource("distanceParams")
+    public void minArrayDistanceTest(int[] arr1, int[] arr2, int expected) {
+        var res = arrayTasks.minArrayDistance(arr1, arr2);
         assertEquals(expected, res);
     }
 

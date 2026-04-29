@@ -149,6 +149,7 @@ Check comments in classes
 - isBST - Check if binary tree is BST
 - treeHeight - find a height of a tree
 - bstSequences - Find all possible arrays of listNodes in BST with distinct elems
+- getFirstNodesOfRow - Fetch all first elements on each level of BST
 
 
 ## Bit operations

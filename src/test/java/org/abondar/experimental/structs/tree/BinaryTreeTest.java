@@ -85,16 +85,16 @@ public class BinaryTreeTest {
         BinaryTree tree = new BinaryTree();
 
         tree.insert(1);
-        assertEquals(1,tree.getRoot().getVal());
+        assertEquals(1, tree.getRoot().getVal());
 
         tree.insert(0);
-        assertEquals(0,tree.getRoot().getLeft().getVal());
+        assertEquals(0, tree.getRoot().getLeft().getVal());
 
         tree.insert(3);
-        assertEquals(3,tree.getRoot().getRight().getVal());
+        assertEquals(3, tree.getRoot().getRight().getVal());
 
         tree.insert(4);
-        assertEquals(4,tree.getRoot().getRight().getRight().getVal());
+        assertEquals(4, tree.getRoot().getRight().getRight().getVal());
 
     }
 
@@ -167,21 +167,21 @@ public class BinaryTreeTest {
         BinaryTree.BinaryTreeNode root = tree.getRoot();
 
         assertEquals(11, root.getVal());
-        assertEquals(3,root.getLeft().getVal());
-        assertEquals(19,root.getRight().getVal());
-        assertEquals(1,root.getLeft().getLeft().getVal());
-        assertEquals(9,root.getLeft().getRight().getVal());
+        assertEquals(3, root.getLeft().getVal());
+        assertEquals(19, root.getRight().getVal());
+        assertEquals(1, root.getLeft().getLeft().getVal());
+        assertEquals(9, root.getLeft().getRight().getVal());
         assertEquals(15, root.getRight().getLeft().getVal());
-        assertEquals(29,root.getRight().getRight().getVal());
+        assertEquals(29, root.getRight().getRight().getVal());
     }
 
 
     @Test
     public void listOfDepthTest() {
         BinaryTree tree = new BinaryTree(11);
-        tree.setNodeChildren(tree.getRoot(),3,19);
-        tree.setNodeChildren(tree.getRoot().getLeft(),1,9);
-        tree.setNodeChildren(tree.getRoot().getRight(),15,29);
+        tree.setNodeChildren(tree.getRoot(), 3, 19);
+        tree.setNodeChildren(tree.getRoot().getLeft(), 1, 9);
+        tree.setNodeChildren(tree.getRoot().getRight(), 15, 29);
 
         List<List<BinaryTree.BinaryTreeNode>> res = tree.listOfDepth();
         assertEquals(3, res.size());
@@ -192,9 +192,9 @@ public class BinaryTreeTest {
     @Test
     public void isBalancedTest() {
         BinaryTree tree = new BinaryTree(11);
-        tree.setNodeChildren(tree.getRoot(),3,19);
-        tree.setNodeChildren(tree.getRoot().getLeft(),1,9);
-        tree.setNodeChildren(tree.getRoot().getRight(),15,29);
+        tree.setNodeChildren(tree.getRoot(), 3, 19);
+        tree.setNodeChildren(tree.getRoot().getLeft(), 1, 9);
+        tree.setNodeChildren(tree.getRoot().getRight(), 15, 29);
 
         assertTrue(tree.isBalanced());
 
@@ -204,22 +204,44 @@ public class BinaryTreeTest {
     @Test
     public void isBSTTest() {
         BinaryTree tree = new BinaryTree(11);
-        tree.setNodeChildren(tree.getRoot(),3,19);
-        tree.setNodeChildren(tree.getRoot().getLeft(),1,9);
-        tree.setNodeChildren(tree.getRoot().getRight(),15,29);
+        tree.setNodeChildren(tree.getRoot(), 3, 19);
+        tree.setNodeChildren(tree.getRoot().getLeft(), 1, 9);
+        tree.setNodeChildren(tree.getRoot().getRight(), 15, 29);
 
         assertTrue(tree.isBST());
     }
 
 
     @Test
-    public void bstSequenceTest(){
+    public void bstSequenceTest() {
         BinaryTree tree = new BinaryTree(2);
-        tree.setNodeChildren(tree.getRoot(),1,3);
+        tree.setNodeChildren(tree.getRoot(), 1, 3);
 
         List<List<BinaryTree.BinaryTreeNode>> res = tree.bstSequences(tree.getRoot());
-        assertEquals(2,res.size());
-        assertEquals(tree.getRoot(),res.get(0).get(0));
+        assertEquals(2, res.size());
+        assertEquals(tree.getRoot(), res.get(0).get(0));
     }
 
+    @Test
+    public void getFirstNodesOfRowTest() {
+        BinaryTree tree = new BinaryTree(2);
+
+        tree.setNodeChildren(tree.getRoot(), 4, 5);
+
+        tree.setNodeChildren(tree.getRoot().getLeft(), 1, 7);
+        tree.setNodeChildren(tree.getRoot().getRight(), 2, 6);
+
+        tree.setNodeChildren(tree.getRoot().getLeft().getLeft(), 8, 9);
+        tree.setNodeChildren(tree.getRoot().getLeft().getRight(), 10, 11);
+        tree.setNodeChildren(tree.getRoot().getRight().getLeft(), 12, 13);
+        tree.setNodeChildren(tree.getRoot().getRight().getRight(), 14, 15);
+
+        var res = tree.getFirstNodesOfRow(tree.getRoot());
+
+        assertEquals(4, res.size());
+        assertEquals(2, res.getFirst());
+        assertEquals(4, res.get(1));
+        assertEquals(1, res.get(2));
+        assertEquals(8, res.get(3));
+    }
 }

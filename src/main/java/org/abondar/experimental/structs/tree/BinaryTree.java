@@ -1,12 +1,14 @@
 package org.abondar.experimental.structs.tree;
 
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
 public class BinaryTree {
 
-    private List<Integer> traversedNodes = new ArrayList<>();
+    private final List<Integer> traversedNodes = new ArrayList<>();
 
     private BinaryTreeNode root;
 
@@ -311,6 +313,41 @@ public class BinaryTree {
     public void clearTraversedNodes() {
         traversedNodes.clear();
     }
+
+    public List<Integer> getFirstNodesOfRow(BinaryTreeNode root) {
+        ArrayList<Integer> res = new ArrayList<>();
+
+        if (root == null) {
+            return res;
+        }
+
+        Queue<BinaryTreeNode> queue = new ArrayDeque<>();
+        queue.add(root);
+
+        while (!queue.isEmpty()) {
+            var levelSize = queue.size();
+
+            for (int i = 0; i < levelSize; i++) {
+                var node = queue.remove();
+
+                if (i == 0) {
+                    res.add(node.val);
+                }
+
+                if (node.left != null) {
+                    queue.add(node.left);
+                }
+
+                if (node.right != null) {
+                    queue.add(node.right);
+                }
+            }
+
+        }
+
+        return res;
+    }
+
 
     //helper methods
     private void visit(BinaryTreeNode n) {

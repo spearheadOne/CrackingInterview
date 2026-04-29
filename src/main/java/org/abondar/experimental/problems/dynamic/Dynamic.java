@@ -90,6 +90,23 @@ public class Dynamic {
         return paintFill(screen, r, c, screen[r][c], newColor);
     }
 
+    private boolean paintFill(Color[][] screen, int r, int c, Color oldColor, Color newColor) {
+        if (r < 0 || r >= screen.length || c < 0 || c >= screen[0].length) {
+            return false;
+        }
+
+        if (screen[r][c] == oldColor) {
+            screen[r][c] = newColor;
+
+            paintFill(screen, r - 1, c, oldColor, newColor);
+            paintFill(screen, r + 1, c, oldColor, newColor);
+            paintFill(screen, r, c - 1, oldColor, newColor);
+            paintFill(screen, r, c + 1, oldColor, newColor);
+        }
+        return true;
+    }
+
+
     public List<String> maxPermutationsNoDups(String str) {
         Strings as = new Strings();
         if (!str.isEmpty() && !as.isUnique(str)) throw new RuntimeException("Chars are not unique");
@@ -117,12 +134,48 @@ public class Dynamic {
         return res;
     }
 
+
+    private List<String> getPerms(String s) {
+        List<String> res = new ArrayList<>();
+        getPerms("", s, res);
+        return res;
+    }
+
+    private void getPerms(String prefix, String reminder, List<String> res) {
+        if (reminder.length() == 0) res.add(prefix);
+
+        int len = reminder.length();
+        for (int i = 0; i < len; i++) {
+            String before = reminder.substring(0, i);
+            String after = reminder.substring(i + 1, len);
+            char c = reminder.charAt(i);
+            getPerms(prefix + c, before + after, res);
+        }
+    }
+
+
     public List<String> maxPermutationsDups(String str) {
         List<String> res = new ArrayList<>();
         Map<Character, Integer> freqs = buildFreqsMap(str);
         getPerms(freqs, "", str.length(), res);
 
         return res;
+    }
+
+    private void getPerms(Map<Character, Integer> freqs, String prefix, int remaining, List<String> res) {
+        if (remaining == 0) {
+            res.add(prefix);
+            return;
+        }
+
+        freqs.forEach((c, count) -> {
+            if (count > 0) {
+                freqs.put(c, count - 1);
+                getPerms(freqs, prefix + c, remaining - 1, res);
+                freqs.put(c, count);
+            }
+        });
+
     }
 
 
@@ -153,6 +206,29 @@ public class Dynamic {
         }
         return maxHeight;
     }
+
+    private int createStack(List<Box> boxes, int bottomIndex, int[] stackMap) {
+        if (bottomIndex < boxes.size() && stackMap[bottomIndex] > 0) {
+            return stackMap[bottomIndex];
+        }
+
+        Box bottom = boxes.get(bottomIndex);
+        int maxHeight = 0;
+
+        for (int i = bottomIndex + 1; i < boxes.size(); i++) {
+            if (boxes.get(i).compareTo(bottom) > 0) {
+                int height = createStack(boxes, i, stackMap);
+                maxHeight = Math.max(height, maxHeight);
+            }
+
+        }
+
+        maxHeight += bottom.getHeight();
+        stackMap[bottomIndex] = maxHeight;
+
+        return maxHeight;
+    }
+
 
     public int countEval(String expr, boolean res) {
         if (expr.length() == 0) return 0;
@@ -193,28 +269,6 @@ public class Dynamic {
         return expr.equals("1");
     }
 
-
-    private int createStack(List<Box> boxes, int bottomIndex, int[] stackMap) {
-        if (bottomIndex < boxes.size() && stackMap[bottomIndex] > 0) {
-            return stackMap[bottomIndex];
-        }
-
-        Box bottom = boxes.get(bottomIndex);
-        int maxHeight = 0;
-
-        for (int i = bottomIndex + 1; i < boxes.size(); i++) {
-            if (boxes.get(i).compareTo(bottom) > 0) {
-                int height = createStack(boxes, i, stackMap);
-                maxHeight = Math.max(height, maxHeight);
-            }
-
-        }
-
-        maxHeight += bottom.getHeight();
-        stackMap[bottomIndex] = maxHeight;
-
-        return maxHeight;
-    }
 
     private int makeChange(int amount, int[] denoms, int i) {
         if (i > denoms.length - 1) return 1;
@@ -257,59 +311,6 @@ public class Dynamic {
         }
 
         return freqsMap;
-    }
-
-
-    private void getPerms(Map<Character, Integer> freqs, String prefix, int remaining, List<String> res) {
-        if (remaining == 0) {
-            res.add(prefix);
-            return;
-        }
-
-        freqs.forEach((c, count) -> {
-            if (count > 0) {
-                freqs.put(c, count - 1);
-                getPerms(freqs, prefix + c, remaining - 1, res);
-                freqs.put(c, count);
-            }
-        });
-
-    }
-
-
-    private List<String> getPerms(String s) {
-        List<String> res = new ArrayList<>();
-        getPerms("", s, res);
-        return res;
-
-    }
-
-    private void getPerms(String prefix, String reminder, List<String> res) {
-        if (reminder.length() == 0) res.add(prefix);
-
-        int len = reminder.length();
-        for (int i = 0; i < len; i++) {
-            String before = reminder.substring(0, i);
-            String after = reminder.substring(i + 1, len);
-            char c = reminder.charAt(i);
-            getPerms(prefix + c, before + after, res);
-        }
-    }
-
-    private boolean paintFill(Color[][] screen, int r, int c, Color oldColor, Color newColor) {
-        if (r < 0 || r >= screen.length || c < 0 || c >= screen[0].length) {
-            return false;
-        }
-
-        if (screen[r][c] == oldColor) {
-            screen[r][c] = newColor;
-
-            paintFill(screen, r - 1, c, oldColor, newColor);
-            paintFill(screen, r + 1, c, oldColor, newColor);
-            paintFill(screen, r, c - 1, oldColor, newColor);
-            paintFill(screen, r, c + 1, oldColor, newColor);
-        }
-        return true;
     }
 
 
@@ -454,35 +455,37 @@ public class Dynamic {
                 }
                 memory[i][j] = Integer.MAX_VALUE;
                 for (int k = i; k <= j - 1; k++) {
-                     int cost = memory[i][k] + memory[k+1][j] + chain[i-1]*chain[k]*chain[j];
-                     if (cost < memory[i][j]){
-                         memory[i][j] = cost;
-                     }
+                    int cost = memory[i][k] + memory[k + 1][j] + chain[i - 1] * chain[k] * chain[j];
+                    if (cost < memory[i][j]) {
+                        memory[i][j] = cost;
+                    }
                 }
             }
         }
 
-        return memory[1][chain.length-1];
+        return memory[1][chain.length - 1];
     }
 
-    public int longestCommonSubsequenceLen(String s1, String s2){
+    public int longestCommonSubsequenceLen(String s1, String s2) {
         char[] s1c = s1.toCharArray();
         char[] s2c = s2.toCharArray();
 
-        int [][] len = new int[s1.length()+1][s2.length()+1];
+        int[][] len = new int[s1.length() + 1][s2.length() + 1];
 
-        for (int i=0;i<=s1.length();i++) {
-            for (int j=0;j<=s2.length();j++){
-                if (i ==0 || j == 0){
+        for (int i = 0; i <= s1.length(); i++) {
+            for (int j = 0; j <= s2.length(); j++) {
+                if (i == 0 || j == 0) {
                     len[i][j] = 0;
-                } else if (s1c[i-1] == s2c[j-1]){
-                    len[i][j] = len[i-1][j-1] +1;
+                } else if (s1c[i - 1] == s2c[j - 1]) {
+                    len[i][j] = len[i - 1][j - 1] + 1;
                 } else {
-                    len[i][j] = Math.max(len[i-1][j],len[i][j-1]);
+                    len[i][j] = Math.max(len[i - 1][j], len[i][j - 1]);
                 }
             }
         }
 
         return len[s1.length()][s2.length()];
-    };
+    }
+
+    ;
 }

@@ -522,4 +522,54 @@ public class Arrays {
 
         return minDistance;
     }
+
+    public int[] getFirstNodesOfRowFlat(int[] tree) {
+        if (tree == null || tree.length == 0) {
+            return new int[0];
+        }
+
+        List<Integer> firstNodes = new ArrayList<>();
+
+        int levelStart = 0;
+        int levelSize = 1;
+
+        while (levelStart < tree.length) {
+            firstNodes.add(tree[levelStart]);
+
+            levelStart += levelSize;
+            levelSize *= 2;
+        }
+
+
+        return firstNodes.stream()
+                .mapToInt(Integer::intValue)
+                .toArray();
+    }
+
+    public int[][] getTreeRows(int[] tree) {
+        if (tree == null || tree.length == 0) {
+            return new int[0][0];
+        }
+
+        List<int[]> rows = new ArrayList<>();
+
+        int levelStart = 0;
+        int levelSize = 1;
+
+        while (levelStart < tree.length) {
+            int levelEnd = Math.min(levelStart + levelSize, tree.length);
+
+            int[] row = new int[levelEnd - levelStart];
+            for (int i = levelStart; i < levelEnd; i++) {
+                row[i - levelStart] = tree[i];
+            }
+
+            rows.add(row);
+
+            levelStart += levelSize;
+            levelSize *= 2;
+        }
+
+        return rows.toArray(new int[0][]);
+    }
 }

@@ -277,6 +277,43 @@ public class ArraysTest {
         );
     }
 
+    static Stream<Arguments> treeNodeParams() {
+        return Stream.of(
+                Arguments.of(new int[]{2, 4, 5, 1, 7, 2, 6}, new int[]{2, 4, 1}),
+                Arguments.of(new int[]{}, new int[]{}),
+                Arguments.of(new int[]{10}, new int[]{10}),
+                Arguments.of(new int[]{1, 2, 3}, new int[]{1, 2}),
+                Arguments.of(new int[]{1, 2, 3, 4, 5}, new int[]{1, 2, 4}),
+                Arguments.of(
+                        new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
+                        new int[]{1, 2, 4, 8}
+                ),
+                Arguments.of(new int[]{-1, -2, -3, -4, -5}, new int[]{-1, -2, -4})
+        );
+    }
+
+    static Stream<Arguments> treeRowsParams() {
+
+        return Stream.of(
+                Arguments.of(null, new int[0][0]),
+                Arguments.of(new int[]{}, new int[0][0]),
+                Arguments.of(new int[]{10}, new int[][]{{10}}),
+                Arguments.of(new int[]{1, 2, 3}, new int[][]{{1}, {2, 3}}),
+                Arguments.of(new int[]{2, 4, 5, 1, 7, 2, 6}, new int[][]{
+                                {2},
+                                {4, 5},
+                                {1, 7, 2, 6}
+                        }
+                ),
+                Arguments.of(new int[]{1, 2, 3, 4, 5},
+                        new int[][]{{1}, {2, 3}, {4, 5}}
+                ),
+                Arguments.of(new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15},
+                        new int[][]{{1}, {2, 3}, {4, 5, 6, 7}, {8, 9, 10, 11, 12, 13, 14, 15}}),
+                Arguments.of(new int[]{-1, -2, -3, -4}, new int[][]{{-1}, {-2, -3}, {-4}})
+        );
+
+    }
 
     @Test
     public void sumTest() {
@@ -472,5 +509,19 @@ public class ArraysTest {
     public void birthdayCandlesTest(List<Integer> data, int expected) {
         var res = arrayTasks.birthdayCandles(data);
         assertEquals(expected, res);
+    }
+
+    @ParameterizedTest
+    @MethodSource("treeNodeParams")
+    public void getFirstNodesOfRowFlatTest(int[] tree, int[] nodes) {
+        var res = arrayTasks.getFirstNodesOfRowFlat(tree);
+        assertArrayEquals(nodes, res);
+    }
+
+    @ParameterizedTest
+    @MethodSource("treeRowsParams")
+    void getTreeRowsTest(int[] tree, int[][] expectedRows) {
+        int[][] actual = arrayTasks.getTreeRows(tree);
+        assertArrayEquals(expectedRows, actual);
     }
 }

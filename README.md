@@ -93,6 +93,8 @@ If element [i][j] of matrix is zero - entire row and column must be zero
 - birthdayCandles - You are in charge of the cake for a child's birthday. 
 You have decided the cake will have one candle for each year of their total age. They will only be able to blow out the tallest of the candles. Count how many candles are tallest.
 - minArrayDistance - calculate minimum distance between two sorted int arrays
+- getFirstNodesOfRowFlat - Fetch all first elements on each level of BST but when the tree is flattened as array of ints
+- getTreeRows - Given a BST represented as array of ints show it in a way that each row is a list of nodes in the row.
 
 ##  List
 - addToEnd - append a new node to the end of list

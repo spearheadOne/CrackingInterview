@@ -246,7 +246,7 @@ public class BinaryTreeTest {
     }
 
     @Test
-    public void getFirstNodesOfRowDfs() {
+    public void getFirstNodesOfRowDfsTest() {
         BinaryTree tree = new BinaryTree(2);
 
         tree.setNodeChildren(tree.getRoot(), 4, 5);
@@ -277,5 +277,35 @@ public class BinaryTreeTest {
 
         int res = tree.findMinGreaterThanN(tree.getRoot(), 16);
         assertEquals(17, res);
+    }
+
+    @Test
+    public void findMinTest() {
+        BinaryTree tree = new BinaryTree(2);
+
+        tree.setNodeChildren(tree.getRoot(), 4, 5);
+
+        tree.setNodeChildren(tree.getRoot().getLeft(), 1, 7);
+        tree.setNodeChildren(tree.getRoot().getRight(), 2, 6);
+
+        tree.setNodeChildren(tree.getRoot().getLeft().getLeft(), 8, 9);
+        tree.setNodeChildren(tree.getRoot().getLeft().getRight(), 10, 11);
+        tree.setNodeChildren(tree.getRoot().getRight().getLeft(), 12, 13);
+        tree.setNodeChildren(tree.getRoot().getRight().getRight(), 14, 15);
+
+        int res = tree.findMin(tree.getRoot());
+        assertEquals(1, res);
+    }
+
+    @Test
+    public void findMinBstTest() {
+        BinaryTree tree = new BinaryTree(10);
+        tree.setNodeChildren(tree.getRoot(), 5, 15);
+        tree.setNodeChildren(tree.getRoot().getLeft(), 2, 7);
+        tree.setNodeChildren(tree.getRoot().getRight(), 12, 17);
+
+        var res = tree.findMinBst(tree.getRoot());
+
+        assertEquals(2, res);
     }
 }

@@ -154,7 +154,8 @@ Check comments in classes
 - getFirstNodesOfRow - Fetch all first elements on each level of BST
 - getFirstNodesOfRowDfs - Fetch all first elements on each level of BST using DFS
 - findMinGreaterThanN - A function which takes binary tree and a number as an input and returns minimum number in the tree that is greater than given.
-
+- findMin - find a minimum in Binary tree
+- findMinBst - a simplified minimum for Binary Search Tree
 
 ## Bit operations
 

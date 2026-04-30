@@ -355,6 +355,7 @@ public class BinaryTree {
         return res;
     }
 
+    //BST ONLY SOLUTION
     public Integer findMinGreaterThanN(BinaryTreeNode root, int n) {
         Integer min = null;
 
@@ -370,6 +371,40 @@ public class BinaryTree {
 
         return min;
     }
+
+    public Integer findMin(BinaryTreeNode node) {
+        if (node == null) {
+            return null;
+        }
+
+        Integer leftMin = findMin(node.left);
+        Integer rightMin = findMin(node.right);
+
+        int min = node.val;
+
+        if (leftMin != null && leftMin < min) {
+            min = leftMin;
+        }
+
+        if (rightMin != null && rightMin < min) {
+            min = rightMin;
+        }
+
+        return min;
+    }
+
+    public Integer findMinBst(BinaryTreeNode node) {
+        if (node == null) {
+            return null;
+        }
+
+        if (node.left != null) {
+            return findMinBst(node.left);
+        }
+
+        return node.val;
+    }
+
 
     private void dfs(BinaryTreeNode node, int level, List<Integer> res) {
         if (node == null) return;

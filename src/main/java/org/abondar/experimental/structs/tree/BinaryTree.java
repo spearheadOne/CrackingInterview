@@ -355,6 +355,22 @@ public class BinaryTree {
         return res;
     }
 
+    public Integer findMinGreaterThanN(BinaryTreeNode root, int n) {
+        Integer min = null;
+
+        var current = root;
+        while (current != null) {
+            if (current.val > n) {
+                min = current.val;
+                current = current.left;
+            } else {
+                current = current.right;
+            }
+        }
+
+        return min;
+    }
+
     private void dfs(BinaryTreeNode node, int level, List<Integer> res) {
         if (node == null) return;
 
@@ -386,8 +402,6 @@ public class BinaryTree {
 
         return node;
     }
-//
-
 
     public static class BinaryTreeNode {
 

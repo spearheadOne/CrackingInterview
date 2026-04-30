@@ -153,6 +153,7 @@ Check comments in classes
 - bstSequences - Find all possible arrays of listNodes in BST with distinct elems
 - getFirstNodesOfRow - Fetch all first elements on each level of BST
 - getFirstNodesOfRowDfs - Fetch all first elements on each level of BST using DFS
+- findMinGreaterThanN - A function which takes binary tree and a number as an input and returns minimum number in the tree that is greater than given.
 
 
 ## Bit operations

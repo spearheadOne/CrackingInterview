@@ -267,4 +267,15 @@ public class BinaryTreeTest {
         assertEquals(1, res.get(2));
         assertEquals(8, res.get(3));
     }
+
+    @Test
+    public void findMinGreaterThanNTest() {
+        BinaryTree tree = new BinaryTree(10);
+        tree.setNodeChildren(tree.getRoot(), 5, 15);
+        tree.setNodeChildren(tree.getRoot().getLeft(), 2, 7);
+        tree.setNodeChildren(tree.getRoot().getRight(), 12, 17);
+
+        int res = tree.findMinGreaterThanN(tree.getRoot(), 16);
+        assertEquals(17, res);
+    }
 }

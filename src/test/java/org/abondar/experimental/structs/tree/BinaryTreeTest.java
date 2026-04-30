@@ -244,4 +244,27 @@ public class BinaryTreeTest {
         assertEquals(1, res.get(2));
         assertEquals(8, res.get(3));
     }
+
+    @Test
+    public void getFirstNodesOfRowDfs() {
+        BinaryTree tree = new BinaryTree(2);
+
+        tree.setNodeChildren(tree.getRoot(), 4, 5);
+
+        tree.setNodeChildren(tree.getRoot().getLeft(), 1, 7);
+        tree.setNodeChildren(tree.getRoot().getRight(), 2, 6);
+
+        tree.setNodeChildren(tree.getRoot().getLeft().getLeft(), 8, 9);
+        tree.setNodeChildren(tree.getRoot().getLeft().getRight(), 10, 11);
+        tree.setNodeChildren(tree.getRoot().getRight().getLeft(), 12, 13);
+        tree.setNodeChildren(tree.getRoot().getRight().getRight(), 14, 15);
+
+        var res = tree.getFirstNodesOfRowDfs(tree.getRoot());
+
+        assertEquals(4, res.size());
+        assertEquals(2, res.getFirst());
+        assertEquals(4, res.get(1));
+        assertEquals(1, res.get(2));
+        assertEquals(8, res.get(3));
+    }
 }

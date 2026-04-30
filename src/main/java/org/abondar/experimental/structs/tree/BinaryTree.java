@@ -348,6 +348,23 @@ public class BinaryTree {
         return res;
     }
 
+    public List<Integer> getFirstNodesOfRowDfs(BinaryTreeNode root) {
+        ArrayList<Integer> res = new ArrayList<>();
+
+        dfs(root, 0, res);
+        return res;
+    }
+
+    private void dfs(BinaryTreeNode node, int level, List<Integer> res) {
+        if (node == null) return;
+
+        if (level == res.size()) {
+            res.add(node.val);
+        }
+
+        dfs(node.left, level + 1, res);
+        dfs(node.right, level + 1, res);
+    }
 
     //helper methods
     private void visit(BinaryTreeNode n) {

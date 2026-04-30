@@ -152,6 +152,7 @@ Check comments in classes
 - treeHeight - find a height of a tree
 - bstSequences - Find all possible arrays of listNodes in BST with distinct elems
 - getFirstNodesOfRow - Fetch all first elements on each level of BST
+- getFirstNodesOfRowDfs - Fetch all first elements on each level of BST using DFS
 
 
 ## Bit operations
